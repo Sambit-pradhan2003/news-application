@@ -12,7 +12,7 @@ import {
     getuserchannelprofile, 
     getwatchhistory} from "../controllers/user.controller.js"
 import {upload}from "../middleware/multer.middleware.js"
-import { verifyjwt }from "../middleware/auth.middleware.js"
+import { verifyjwt}from "../middleware/auth.middleware.js"
 
 const router=Router()
 

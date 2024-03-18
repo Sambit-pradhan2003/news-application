@@ -51,18 +51,21 @@ const registeruser= asynchandaler(async (req,res)=>{
         throw new apierror(409,"user name alredy exist")
     }
 
-
-
-    const avatarlocalpath=req.files?.avatar[0]?.path;
+    //nkjnknkj
+    // const avatarlocalpath=req.files?.avatar[0]?.path;
+    let avatarlocalpath;
+    if (req.files && Array.isArray(req.files.avatar) && req.files.avatar.length > 0) {
+        avatarlocalpath = req.files.avatar[0].path
+    }
     let coverimagelocalpath;
     if (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
         coverimagelocalpath = req.files.coverImage[0].path
     }
 
-    if(!avatarlocalpath){
-        throw new apierror(404,"avataris required")
+    // if(!avatarlocalpath){
+    //     throw new apierror(404,"avataris required")
 
-    }
+    // }
 
 
 
@@ -70,15 +73,15 @@ const registeruser= asynchandaler(async (req,res)=>{
     const avatar=await uploadoncloudinary(avatarlocalpath)
     const coverImage=await uploadoncloudinary(coverimagelocalpath)
     
-    if(!avatar){
-        throw new apierror(404,"avataris required")
-    }
+    // if(!avatar){
+    //     throw new apierror(404,"avataris required")
+    // }
 
 
 
     const user=await User.create({
         fullName,
-        avatar:avatar.url,
+        avatar:avatar?.url||"",
         coverImage:coverImage?.url||"",
         email,
         password,
@@ -128,7 +131,7 @@ const loginuser=asynchandaler(async(req,res)=>{
     };
 
     const { acessToken, refreshToken }=await generateacesstokebandrefreshtoken(user._id)
-    //console.log(acessToken,"hg nkjnhkj kkjh ",refreshToken)
+    console.log(acessToken,"hg nkjnhkj kkjh ",refreshToken)
 
 
     const logedinuser=await User.findById(user._id).select("-password -refreshToken")

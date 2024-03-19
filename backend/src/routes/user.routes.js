@@ -9,8 +9,10 @@ import {
     changecurrentpassword, 
     updateaccountdetails, 
     updatecoverimage, 
-    getuserchannelprofile, 
-    getwatchhistory} from "../controllers/user.controller.js"
+    // getuserchannelprofile
+    } from "../controllers/user.controller.js"
+
+    import{getChannelarticles} from '../controllers/dashbord.controller.js'
 import {upload}from "../middleware/multer.middleware.js"
 import { verifyjwt}from "../middleware/auth.middleware.js"
 
@@ -39,8 +41,8 @@ router.route("/currentuser").get(verifyjwt,getcurrentuser)
 router.route("/updateaccount").patch(verifyjwt,updateaccountdetails)
 router.route("/updateavatar").patch(verifyjwt,upload.single("avatar"),updateuseravatar)
 router.route("/updatecoverimage").patch(verifyjwt,upload.single("coverImage"),updatecoverimage)
-router.route("/c/:username").get(verifyjwt,getuserchannelprofile)
-router.route("/history").get(verifyjwt,getwatchhistory)
+ router.route("/dashbord/articles").get(verifyjwt,getChannelarticles)
+
 
 
 

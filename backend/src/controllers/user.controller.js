@@ -24,6 +24,8 @@ const generateacesstokebandrefreshtoken= (async (userid)=>{
     }
 })
 
+
+
 const registeruser= asynchandaler(async (req,res)=>{
    
     //get user detail from frontend
@@ -104,6 +106,8 @@ const registeruser= asynchandaler(async (req,res)=>{
 })
 
 
+
+
 const loginuser=asynchandaler(async(req,res)=>{
     const {email,username,password}=req.body
     console.log(username,email,password)
@@ -160,6 +164,9 @@ const loginuser=asynchandaler(async(req,res)=>{
 
 })
 
+
+
+
 const logoutuser=asynchandaler(async(req,res)=>{
     await User.findByIdAndUpdate(req.user._id,{
         $set:{refreshToken:undefined}
@@ -178,7 +185,10 @@ const logoutuser=asynchandaler(async(req,res)=>{
     .json(new apiresponse(200,{},"user logged out"))
 })
 
-const refreshacesstoken= asynchandaler(async(req,res)=>{
+
+
+
+const refreshacesstoken= asynchandaler(async(req,res)=>{ 
 
     const incommingrefreshtoken= req.cookies.refreshToken || req.body.refreshToken
     console.log(incommingrefreshtoken)
@@ -193,7 +203,7 @@ const refreshacesstoken= asynchandaler(async(req,res)=>{
         const user=await User.findById(decodedtoken?._id)
     
         if(!user){
-            throw new apierror(401,"inva;id refresh token")
+            throw new apierror(401,"invalid refresh token")
         }
     
         if(incommingrefreshtoken!==user?.refreshToken){
@@ -227,6 +237,8 @@ const refreshacesstoken= asynchandaler(async(req,res)=>{
     }
 
 })
+
+
 
 
 const changecurrentpassword=asynchandaler(async(req,res)=>{
@@ -349,122 +361,78 @@ const updatecoverimage=asynchandaler(async(req,res)=>{
     
 })
 
-const getuserchannelprofile= asynchandaler(async(req,res)=>{
-    const {username}=req.params
+// const getuserchannelprofile= asynchandaler(async(req,res)=>{
+//     const {username}=req.params
 
 
-    if(!username?.trim()){
-        throw new apierror(400,"user name is missing")
-    }
+//     if(!username?.trim()){
+//         throw new apierror(400,"user name is missing")
+//     }
     
 
 
-    const channel = await User.aggregate([
-        {
-            $match: {
-                username: username?.toLowerCase()
-            }
-        },
-        {
-            $lookup: {
-                from: "subscriptions",
-                localField: "_id",
-                foreignField: "channel",
-                as: "subscribers"
-            }
-        },
-        {
-            $lookup: {
-                from: "subscriptions",
-                localField: "_id",
-                foreignField: "subscriber",
-                as: "subscribedTo"
-            }
-        },
-        {
-            $addFields: {
-                subscribersCount: {
-                    $size: "$subscribers"
-                },
-                channelsSubscribedToCount: {
-                    $size: "$subscribedTo"
-                },
-                isSubscribed: {
-                    $cond: {
-                        if: {$in: [req.user?._id, "$subscribers.subscriber"]},
-                        then: true,
-                        else: false
-                    }
-                }
-            }
-        },
-        {
-            $project: {
-                fullName: 1,
-                username: 1,
-                subscribersCount: 1,
-                channelsSubscribedToCount: 1,
-                isSubscribed: 1,
-                avatar: 1,
-                coverImage: 1,
-                email: 1
+//     const channel = await User.aggregate([
+//         {
+//             $match: {
+//                 username: username?.toLowerCase()
+//             }
+//         },
+//         {
+//             $lookup: {
+//                 from: "subscriptions",
+//                 localField: "_id",
+//                 foreignField: "channel",
+//                 as: "subscribers"
+//             }
+//         },
+//         {
+//             $lookup: {
+//                 from: "subscriptions",
+//                 localField: "_id",
+//                 foreignField: "subscriber",
+//                 as: "subscribedTo"
+//             }
+//         },
+//         {
+//             $addFields: {
+//                 subscribersCount: {
+//                     $size: "$subscribers"
+//                 },
+//                 channelsSubscribedToCount: {
+//                     $size: "$subscribedTo"
+//                 },
+//                 isSubscribed: {
+//                     $cond: {
+//                         if: {$in: [req.user?._id, "$subscribers.subscriber"]},
+//                         then: true,
+//                         else: false
+//                     }
+//                 }
+//             }
+//         },
+//         {
+//             $project: {
+//                 fullName: 1,
+//                 username: 1,
+//                 subscribersCount: 1,
+//                 channelsSubscribedToCount: 1,
+//                 isSubscribed: 1,
+//                 avatar: 1,
+//                 coverImage: 1,
+//                 email: 1
 
-            }
-        }
-    ])
+//             }
+//         }
+//     ])
 
-    if(!channel?.length){
-        throw new apierror(400,'channel not exist')
-    }
-    return res.status(200)
-    .json(
-        new apiresponse(200,channel[0],"user channel crate sucessfully")
-    )
-})
-
-const getwatchhistory=asynchandaler(async(req,res)=>{
-    const user=await User.aggregate([
-        {
-            $match:{
-                _id:new mongoose.Types.ObjectId(req.user._id)
-            }
-        },{
-            $lookup:{
-                from:"videos",
-                localField:"watchHistory",
-                foreignField:"_id",
-                as:"watchhistory",
-                pipeline:[
-                    {
-                        $lookup:{
-                            from:"users",
-                            localField:"owner",
-                            foreignField:"_id",
-                            as:"owner",
-                            pipeline:[
-                                {
-                                    $project:{
-                                        fullName:1,
-                                        username:1,
-                                        avatar:1
-                                    }
-                                }
-                            ]
-                        }
-                    },{
-                    $addFields:{
-                        owner:{
-                           $first:"$owner" 
-                        }
-                    }}
-
-                ]
-            }
-        }
-    ])
-    return res.status(200)
-    .json(new apiresponse(200,user[0].watchHistory,"watchhistory featchedbsucessfully"))
-})
+//     if(!channel?.length){
+//         throw new apierror(400,'channel not exist')
+//     }
+//     return res.status(200)
+//     .json(
+//         new apiresponse(200,channel[0],"user channel crate sucessfully")
+//     )
+// })
 
 export {
     registeruser,
@@ -474,7 +442,7 @@ export {
     changecurrentpassword,
     updateaccountdetails,
     updatecoverimage,
-    updateuseravatar,
-    getuserchannelprofile,
-    getwatchhistory,getcurrentuser
+    updateuseravatar 
+    // getuserchannelprofile
+  ,getcurrentuser
 }

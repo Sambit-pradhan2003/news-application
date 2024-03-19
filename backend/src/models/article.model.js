@@ -6,6 +6,7 @@ const articleSchema = new Schema(
     {
         ArticleImage: {
             type: String, //cloudinary url
+            required: true
         },
         title: {
             type: String, 

@@ -8,6 +8,8 @@ import {
   Signup,
   Login,
   Articles,
+  Writearticle,
+  Yourblogs,
  } from './Allcomponent.js';
 import { Provider } from 'react-redux'
 import store from './store/store.js';
@@ -34,6 +36,14 @@ const router= createBrowserRouter([
       {
         path:"articles",
       element:<Articles/>
+      },
+      {
+        path:"writearticle",
+      element:<Writearticle/>
+      },
+      {
+        path:"yourblogs",
+      element:<Yourblogs/>
       },
     ]
   }

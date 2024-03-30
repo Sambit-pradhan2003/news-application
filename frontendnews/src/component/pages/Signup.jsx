@@ -43,7 +43,7 @@ const Signup = () => {
   }, [data.statuscode, navigate]);
 
   return (
-    <div className="max-w-md mx-auto my-8 p-8 bg-white shadow-lg rounded-md">
+    <div className="max-w-md mx-auto my-20 p-8 bg-white shadow-lg rounded-md">
       <h2 className="text-2xl font-semibold mb-4">Register</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">

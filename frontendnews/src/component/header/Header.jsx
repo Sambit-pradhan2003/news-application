@@ -13,11 +13,13 @@ const Header = () => {
 
 
   const handleLogout = async () => {
+    console.log("clicked")
     try {
       const response = await axios.post("/api/v1/users/logout"
           );
-          //setCount(response.data);
+          console.log(response.data);
           await dispatch(logout())
+          await localStorage.removeItem('isLoggedIn1');
      
 
     } catch (error) {
@@ -29,7 +31,9 @@ const Header = () => {
     useEffect(() => {
       setloggedIn(x);
     }, [x]);
+    const isLoggedIn = localStorage.getItem('isLoggedIn1') === 'true';
     console.log(loggedIn)
+    console.log("local",isLoggedIn)
   return (
     <header className="flex justify-between items-center py-4 px-8 bg-violet-500 text-white fixed top-0 w-full z-10">
     <div className="flex items-center">
@@ -39,7 +43,7 @@ const Header = () => {
       <h1 className="text-xl font-bold">Your App Name</h1>
     </div>
     <nav>
-      {loggedIn ? (
+      {loggedIn ||isLoggedIn ? (
         <button onClick={handleLogout} className="mx-2">
           Logout
         </button>

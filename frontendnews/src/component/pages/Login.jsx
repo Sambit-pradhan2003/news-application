@@ -35,7 +35,9 @@ function Login() {
 
   if (count !== undefined && count !== null){
     dispatch(login({userdata:count}))
+    localStorage.setItem('isLoggedIn1', 'true');
   }
+
 
 
   useEffect(() => {

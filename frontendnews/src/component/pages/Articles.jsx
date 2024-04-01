@@ -43,7 +43,13 @@ const Articles = () => {
 
   }
   if (count.data==null) {
-    return <div className="max-w-3xl mx-auto mt-24 py-8">Unexpected Error</div>;
+    return(
+      <div>
+        <div className="max-w-3xl mx-auto mt-24 py-8">Unexpected Error</div>
+        <div className="max-w-3xl mx-auto  py-8">please login to view this page  </div>
+      </div>
+      )
+
   }
 
   return (

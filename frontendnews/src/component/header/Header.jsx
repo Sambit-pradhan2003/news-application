@@ -29,6 +29,7 @@ const Header = () => {
     useEffect(() => {
       setloggedIn(x);
     }, [x]);
+    console.log(loggedIn)
   return (
     <header className="flex justify-between items-center py-4 px-8 bg-violet-500 text-white fixed top-0 w-full z-10">
     <div className="flex items-center">

@@ -42,16 +42,16 @@ const Articles = () => {
     blogs=count.data
 
   }
-  if (count.data==null) {
-    return(
-      <div>
-        <div className="max-w-3xl mx-auto mt-24 py-8">Unexpected Error</div>
-        <div className="max-w-3xl mx-auto  py-8">please login to view this page  </div>
-      </div>
-      )
+  // if (count.data==null) {
+  //   return(
+  //     <div>
+  //       <div className="max-w-3xl mx-auto mt-24 py-8">Unexpected Error</div>
+  //       <div className="max-w-3xl mx-auto  py-8">please login to view this page  </div>
+  //     </div>
+  //     )
 
-  }
-
+  // }
+  if (count.data!=null){
   return (
    <>
     <div className=" h-32 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 mt-20 relative ">
@@ -90,7 +90,16 @@ const Articles = () => {
       ))}
     </div>
     </>
-  );
+  );}
+
+  else{
+    return(
+      <div>
+        <div className="max-w-3xl mx-auto mt-24 py-8">Unexpected Error</div>
+        <div className="max-w-3xl mx-auto  py-8">please login to view this page  </div>
+      </div>
+      )
+  }
 };
 
 export default Articles;

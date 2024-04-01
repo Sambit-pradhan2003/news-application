@@ -10,6 +10,7 @@ import {
   Articles,
   Writearticle,
   Yourblogs,
+  Reader,
  } from './Allcomponent.js';
 import { Provider } from 'react-redux'
 import store from './store/store.js';
@@ -44,6 +45,10 @@ const router= createBrowserRouter([
       {
         path:"yourblogs",
       element:<Yourblogs/>
+      },
+      {
+        path:"reading",
+      element:<Reader/>
       },
     ]
   }

@@ -174,13 +174,14 @@ const logoutuser=asynchandaler(async(req,res)=>{
         new:true
     }
     )
+    req.user = null;
     const options={
         httpOnly:true,
         secure:true
     }
     return res 
     .status(200)
-    .clearCookie("acessToken")
+    .clearCookie("accessToken")
     .clearCookie("refreshToken")
     .json(new apiresponse(200,{},"user logged out"))
 })

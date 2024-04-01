@@ -1,81 +1,96 @@
-import React from 'react'
-import Homeheader from '../header/Homeheader'
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 function Home() {
+  const [count, setCount1] = useState({});
+  const [query, setQuery] = useState('');
+  const[query1,setquery1]=useState("")
+  const [news, setNews] = useState([]); // Initialize news as an empty array
 
-  const data = [
-    {
-      id: 1,
-      imageUrl: 'https://example.com/image1.jpg',
-      title: 'Title 1',
-      writer: 'Writer 1',
-      description: 'Description 1',
-      timestamp: '2024-03-30T12:00:00Z',
-    },
-    {
-      id: 2,
-      imageUrl: 'https://example.com/image2.jpg',
-      title: 'Title 2',
-      writer: 'Writer 2',
-      description: 'Description 2 njfjvfhbfh hjfbvhdf jhfhg ',
-      timestamp: '2024-03-29T12:00:00Z',
-    },
-    {
-      id: 3,
-      imageUrl: 'https://example.com/image3.jpg',
-      title: 'Title 3',
-      writer: 'Writer 3',
-      description: 'Description 3',
-      timestamp: '2024-03-28T12:00:00Z',
-    },
-    {
-      id: 3,
-      imageUrl: 'https://example.com/image3.jpg',
-      title: 'Title 3',
-      writer: 'Writer 3',
-      description: 'Description 3',
-      timestamp: '2024-03-28T12:00:00Z',
-    },
-  ];
+  const hadlebutton=()=>{
+    setQuery(query1)
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://newsapi.org/v2/everything', {
+          params: {
+            q: query ?(query):('india') ,
+            apiKey: '16a32a123b914bc58cb59a3555e2a07d',
+          },
+        });
+
+        setCount1(response.data);
+        if (response.data.articles) {
+          setNews(response.data.articles); // Set news only if articles are available in the response
+        }
+      } catch (error) {
+        console.log('error at home', error);
+      }
+    };
+
+    fetchData(); // Call the fetchData function when the component mounts
+  }, [query]);
+
   return (
     <div>
-       <nav className="bg-blue-950 text-white w-full fixed top-20 flex items-center justify-between px-4 h-10 z-10">
+      <nav className="bg-blue-950 text-white w-full fixed top-20 flex items-center justify-between px-4 h-10 z-10">
         <div className="flex items-center">
           <input
-            type="text"
-            placeholder="Search"
-            className="px-2 py-1 mr-2 border border-gray-600 rounded h-6"
+           type="text"
+           placeholder="Search"
+           id="query1"
+           name="query1"
+           value={query1}
+           onChange={(e) => setquery1(e.target.value)}
+            className="px-2 py-1 mr-2 border text-black border-gray-600 rounded h-6"
           />
-          <button className="px-3  h-6 bg-gray-600 hover:bg-gray-700 rounded">
+          <button onClick={hadlebutton} className="px-3  h-6 bg-gray-600 hover:bg-gray-700 rounded">
             Search
           </button>
         </div>
         <div className="flex justify-center space-x-4">
-          <Link to="/cricket">Cricket</Link>
-          <Link to="/politics">Politics</Link>
-          <Link to="/bollywood">Bollywood</Link>
+          <button onClick={(e)=>{
+            setQuery(e.target.innerText)
+          }}>Cricket</button>
+          <button onClick={(e)=>{
+            setQuery(e.target.innerText)
+          }}>Science</button>
+          <button onClick={(e)=>{
+            setQuery(e.target.innerText)
+          }}>Finance</button>
+          <button onClick={(e)=>{
+            setQuery(e.target.innerText)
+          }}>Tech</button>
         </div>
         <div>
           <Link to="articles">go to blog➡️</Link>
         </div>
       </nav>
       <div className="grid grid-cols-3 gap-8 mt-36 mx-12">
-        {data.map((item, index) => (
+        {news.map((item, index) => (
           <div key={index} className="bg-gray-100 p-4 rounded shadow">
-           <img src={item.imageUrl} alt={item.title} className="w-full h-40 object-cover rounded" />
+            <img src={item.urlToImage} alt={item.title} className="w-full h-40 object-cover rounded" />
             <div className="mt-2">
               <h2 className="text-lg font-bold">{item.title}</h2>
-              <p className="text-sm text-gray-600">{item.writer}</p>
-              <p className="text-sm text-gray-800">{item.description}</p>
-              <p className="text-xs text-gray-400">{item.timestamp}</p>
+              <p className="text-sm text-gray-600">{item.source?.name}</p>
+              <p className="text-xs text-gray-400">{item.publishedAt}</p>
+              <p className="text-sm text-gray-800">{item.description?.slice(0, 20)}.........</p>
+              {/* <Link to="/readingnews" state={{ data: item }} key={item.id}>
+                <button className="text-blue-600">readmore</button>
+              </Link> */}
+              <Link to={item.url} >
+                <button className="text-blue-600">readmore</button>
+              </Link>
+              
             </div>
           </div>
         ))}
       </div>
-     
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;

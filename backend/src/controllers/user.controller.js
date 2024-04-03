@@ -109,18 +109,15 @@ const registeruser= asynchandaler(async (req,res)=>{
 
 
 const loginuser=asynchandaler(async(req,res)=>{
-    const {email,username,password}=req.body
-    console.log(username,email,password)
+    const {email,password}=req.body
 
 
-    if(username && !email){
+    if(!email){
         throw new apierror(400,"username and email required")
     }
 
 
-    const user=await User.findOne({
-        $or:[{username},{email}]
-    })
+    const user=await User.findOne({email})
 
     if(!user){
         throw new apierror(404,"user not find")
@@ -135,7 +132,6 @@ const loginuser=asynchandaler(async(req,res)=>{
     };
 
     const { acessToken, refreshToken }=await generateacesstokebandrefreshtoken(user._id)
-    console.log(acessToken,"hg nkjnhkj kkjh ",refreshToken)
 
 
     const logedinuser=await User.findById(user._id).select("-password -refreshToken")

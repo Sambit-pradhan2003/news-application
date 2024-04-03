@@ -7,9 +7,10 @@ import { login  } from '../../store/authslice'
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [username, setusername] = useState('');
+  const [passcorrect, setpasscorrect] = useState(false);
   const [count, setCount] = useState();
   const [loggedin, setlogedin] = useState(false);
+  const [dataavail, setDataavail] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch()
 
@@ -21,17 +22,25 @@ function Login() {
 
   const hsubmit = async () => {
     try {
-      const response = await axios.post("/api/v1/users/login", {
-        "username": username,
-        "email": email,
-        "password": password,
-      });
-      setCount(response.data);
+      if (password&&email) {
+        const response = await axios.post("/api/v1/users/login", {
+          "email": email,
+          "password": password,
+        });
+        setCount(response.data);
+        
+      } else {
+        setDataavail(true)
+      }
+      
 
     } catch (error) {
+      setpasscorrect(true)
       console.log("error fetching data", error);
     }
   };
+
+
 
   if (count !== undefined && count !== null){
     dispatch(login({userdata:count}))
@@ -41,9 +50,7 @@ function Login() {
 
 
   useEffect(() => {
-    // This block will run whenever count is updated
-    // setlogedin(x)
-
+    // console.log("gghfhgf",count)
     if (count !== undefined && count !== null) {
       setlogedin(true);
 
@@ -52,6 +59,10 @@ function Login() {
       }
     }
   }, [count, loggedin, navigate]);
+
+
+
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
@@ -69,18 +80,7 @@ function Login() {
               required
             />
           </div>
-          <div className="mb-4">
-            <label htmlFor="username" className="block text-gray-700 text-sm font-medium mb-2">username</label>
-            <input
-              type="username"
-              id="username"
-              name="username"
-              value={username}
-              onChange={(e) => setusername(e.target.value)}
-              className="w-full p-2 border rounded-md focus:outline-none focus:border-blue-500"
-              required
-            />
-          </div>
+
 
           <div className="mb-6">
             <label htmlFor="password" className="block text-gray-700 text-sm font-medium mb-2">Password</label>
@@ -94,6 +94,11 @@ function Login() {
               required
             />
           </div>
+
+          {dataavail && <p>Please fill in all input fields.</p>}
+          {passcorrect && <p>invalid credential</p>}
+
+
           <div className="flex items-center justify-between">
             <button
               type="button"
@@ -102,7 +107,6 @@ function Login() {
             >
               Login
             </button>
-            <a href="/forgot-password" className="text-blue-500 text-sm">Forgot Password?</a>
           </div>
         </form>
       </div>

@@ -10,14 +10,15 @@ const Signup = () => {
   const [profileImage, setProfileImage] = useState(null);
   const [coverImage, setCoverImage] = useState(null);
   const [data, setdata] = useState({});
+  const [avaidata, setavaidata] = useState(false);
   const navigate = useNavigate()
   
+
   const handleSubmit = async(e) => {
     e.preventDefault();
     // Implement your registration logic here
     try {
-
-      const formData = new FormData();
+        const formData = new FormData();
         formData.append("username", username);
         formData.append("fullName", fullname);
         formData.append("email", email);
@@ -33,6 +34,7 @@ const Signup = () => {
         setdata(response.data);
       
     } catch (error) {
+      setavaidata(true)
       console.log("error at handlae submit",error)
     }
   };
@@ -98,6 +100,9 @@ const Signup = () => {
             required
           />
         </div>
+
+       
+
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="profileImage">
             Profile Image
@@ -120,6 +125,7 @@ const Signup = () => {
             onChange={(e) => setCoverImage(e.target.files[0])}
           />
         </div>
+        {avaidata && <p>username or emailo alredy exist please try again</p>}
         <button
           type="submit"
           className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"

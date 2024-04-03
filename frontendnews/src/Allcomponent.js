@@ -4,10 +4,8 @@ import Articles from './component/pages/Articles'
 import Writearticle from './component/pages/Writeblog'
 import Yourblogs from './component/pages/Yourblogs'
 import Reader from './component/pages/Reader'
-import Readernews from './component/pages/Readernews'
 
 
-
-export {Signup,Login,Articles,Writearticle,Yourblogs,Reader,Readernews}
+export {Signup,Login,Articles,Writearticle,Yourblogs,Reader}
 
 

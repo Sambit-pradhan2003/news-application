@@ -34,9 +34,9 @@ const Header = () => {
     <header className="flex justify-between items-center py-4 px-8 bg-violet-500 text-white fixed top-0 w-full z-10">
     <div className="flex items-center">
       <div className="bg-gray-700 rounded-full h-12 w-12 flex items-center justify-center mr-4">
-        <img src="/path/to/logo.png" alt="Logo" className="h-8 w-8" />
+        <img src="https://w7.pngwing.com/pngs/898/590/png-transparent-newspaper-mobile-app-mailonline-android-news-files-free-miscellaneous-text-logo.png" alt="Logo" className="h-8 w-8" />
       </div>
-      <h1 className="text-xl font-bold">Your App Name</h1>
+      <h1 className="text-xl font-bold">SN NEWS</h1>
     </div>
     <nav>
       {loggedIn ||isLoggedIn ? (

@@ -19,33 +19,31 @@ function Login() {
   const y=useSelector(state=>state.auth.userdata)
 
 
+  useEffect(() => {
+    if (count !== undefined && count !== null) {
+      dispatch(login({ userdata: count }));
+      localStorage.setItem('isLoggedIn1', 'true');
+      setpasscorrect(false); // Reset passcorrect state
+    }
+  }, [count, dispatch]);
 
   const hsubmit = async () => {
     try {
-      if (password&&email) {
-        const response = await axios.post("/api/v1/users/login", {
-          "email": email,
-          "password": password,
+      if (password && email) {
+        const response = await axios.post('/api/v1/users/login', {
+          email: email,
+          password: password,
         });
         setCount(response.data);
-        
+        dispatch(login({ userdata: response.data }));
       } else {
-        setDataavail(true)
+        setDataavail(true);
       }
-      
-
     } catch (error) {
-      setpasscorrect(true)
-      console.log("error fetching data", error);
+      setpasscorrect(true);
+      console.error('Error fetching data:', error);
     }
   };
-
-
-
-  if (count !== undefined && count !== null){
-    dispatch(login({userdata:count}))
-    localStorage.setItem('isLoggedIn1', 'true');
-  }
 
 
 

@@ -141,7 +141,7 @@ const loginuser=asynchandaler(async(req,res)=>{
         secure:true
     }
     
-    
+    console.log(refreshToken,"        ")
     return res
     .status(200)
     .cookie("accessToken", acessToken, options)

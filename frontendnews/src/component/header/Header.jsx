@@ -11,15 +11,30 @@ const Header = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [count1, setCount1] = useState();
 
-  useEffect(() => {
-    const refreshToken = Cookies.get('refreshToken');
-    console.log(refreshToken, "refresh");
-  }, []);
+  // useEffect(() => {
+  //   const refreshToken = Cookies.get('refreshToken');
+  //   console.log(refreshToken, "refresh");
+  // }, []);
+
+
+  // useEffect(() => {
+  //   const refreshToken = Cookies.get('refreshToken');
+  //   console.log(refreshToken, "refresh");
+  // }, []);
+
+
 
 const handleLogin1=async ()=>{
   try {
-    // await axios.post("api/v1/users/refreshtoken");
-    // setCount1(response.data);
+    const response=await axios.post("api/v1/users/refreshtoken");
+
+    setCount1(response.data||"snreq");
+
+
+    const refreshToken = Cookies.refreshToken||"sn";
+    console.log(refreshToken, "refresh");
+
+
     
   } catch (error) {
     console.log("hello",error)
@@ -30,9 +45,9 @@ console.log(count1)
 
   useEffect(() => {
     const isLoggedIn2 = localStorage.getItem('isLoggedIn1') === 'true';
-    console.log(isLoggedIn2,"is logedin at local")
+    // console.log(isLoggedIn2,"is logedin at local")
     setLoggedIn(isLoggedIn2);
-  }, []);
+  }, [loggedIn,isLoggedIn]);
 
   const handleLogout = async () => {
     try {
@@ -46,11 +61,11 @@ console.log(count1)
   const x = useSelector((state) => state.auth.status);
   
 
-  // useEffect(() => {
-  //   setLoggedIn(x);
-  // }, [x]);
-  console.log(loggedIn,"logedin2")
-  console.log(isLoggedIn,"islogedin")
+  useEffect(() => {
+    // setLoggedIn(x);
+  }, [x]);
+  // console.log(loggedIn,"logedin2")
+  // console.log(isLoggedIn,"islogedin")
 
   return (
     <header className="flex justify-between items-center py-4 px-8 bg-violet-500 text-white fixed top-0 w-full z-10">

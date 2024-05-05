@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 function Home() {
+  const apik = process.env.REACT_APP_API_KEY;
+      console.log(apik)
   const [count, setCount1] = useState({});
   const [query, setQuery] = useState('');
   const[query1,setquery1]=useState("")
@@ -14,6 +16,7 @@ function Home() {
 
   useEffect(() => {
     const fetchData = async () => {
+      
       try {
         const response = await axios.get('https://newsapi.org/v2/everything', {
           params: {

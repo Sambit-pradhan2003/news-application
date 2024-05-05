@@ -213,7 +213,8 @@ const refreshacesstoken= asynchandaler(async(req,res)=>{
         }
     
         const{acessToken,newrefreshToken}=await generateacesstokebandrefreshtoken(user._id)
-    
+        console.log("  acesstoken  ",acessToken)
+        console.log("  refreshtoken    ",newrefreshToken)
     
         return res
         .status(200)

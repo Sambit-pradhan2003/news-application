@@ -3,30 +3,34 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../store/authslice';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const Header = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(state => state.auth.status);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [count1, setCount1] = useState();
 
-  // useEffect(() => {
-  //   const handleBeforeUnload = async() => {
-  //     const response = await axios.post("/api/v1/users/logout");
-  //     await dispatch(logout())
-  //     localStorage.removeItem('isLoggedIn1');
-  //   };
+  useEffect(() => {
+    const refreshToken = Cookies.get('refreshToken');
+    console.log(refreshToken, "refresh");
+  }, []);
 
-  //   window.addEventListener('beforeunload', handleBeforeUnload);
+const handleLogin1=async ()=>{
+  try {
+    // await axios.post("api/v1/users/refreshtoken");
+    // setCount1(response.data);
+    
+  } catch (error) {
+    console.log("hello",error)
+  }
+}
 
-  //   return () => {
-  //     window.removeEventListener('beforeunload', handleBeforeUnload);
-  //   };
-  // }, []);
-
-
+console.log(count1)
 
   useEffect(() => {
     const isLoggedIn2 = localStorage.getItem('isLoggedIn1') === 'true';
+    console.log(isLoggedIn2,"is logedin at local")
     setLoggedIn(isLoggedIn2);
   }, []);
 
@@ -40,10 +44,13 @@ const Header = () => {
     }
   };
   const x = useSelector((state) => state.auth.status);
+  
 
-  useEffect(() => {
-    setLoggedIn(x);
-  }, [x]);
+  // useEffect(() => {
+  //   setLoggedIn(x);
+  // }, [x]);
+  console.log(loggedIn,"logedin2")
+  console.log(isLoggedIn,"islogedin")
 
   return (
     <header className="flex justify-between items-center py-4 px-8 bg-violet-500 text-white fixed top-0 w-full z-10">
@@ -56,12 +63,17 @@ const Header = () => {
         </Link>
       </div>
       <nav>
-        {isLoggedIn && loggedIn? (
+        {isLoggedIn || loggedIn ? (<>
           <Link to="/">
           <button onClick={handleLogout} className="mx-2">
             Logout
           </button>
           </Link>
+          <button onClick={handleLogin1} className="mx-2">
+            Logout1
+          </button>
+          </>
+          
         ) : (
           <>
             <Link to="/signup" className="mx-2">
@@ -70,6 +82,8 @@ const Header = () => {
             <Link to="/login" className="mx-2">
               Login
             </Link>
+           
+            
           </>
         )}
       </nav>

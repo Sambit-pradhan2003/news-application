@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 function Home() {
-  const apik = process.env.REACT_APP_API_KEY;
-      console.log(apik)
+  // const apik = process.env.REACT_APP_API_KEY;
+  //     console.log(apik)
   const [count, setCount1] = useState({});
   const [query, setQuery] = useState('');
   const[query1,setquery1]=useState("")
@@ -13,15 +13,14 @@ function Home() {
   const hadlebutton=()=>{
     setQuery(query1)
   }
-
+  
   useEffect(() => {
     const fetchData = async () => {
-      
       try {
         const response = await axios.get('https://newsapi.org/v2/everything', {
           params: {
             q: query ?(query):('india') ,
-            apiKey: '16a32a123b914bc58cb59a3555e2a07d',
+            apiKey: import.meta.env.VITE_SOME_KEY,
           },
         });
 

@@ -11,16 +11,7 @@ const Header = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [count1, setCount1] = useState();
 
-  // useEffect(() => {
-  //   const refreshToken = Cookies.get('refreshToken');
-  //   console.log(refreshToken, "refresh");
-  // }, []);
-
-
-  // useEffect(() => {
-  //   const refreshToken = Cookies.get('refreshToken');
-  //   console.log(refreshToken, "refresh");
-  // }, []);
+ 
 
 
 
@@ -41,7 +32,6 @@ const handleLogin1=async ()=>{
   }
 }
 
-console.log(count1)
 
   useEffect(() => {
     const isLoggedIn2 = localStorage.getItem('isLoggedIn1') === 'true';

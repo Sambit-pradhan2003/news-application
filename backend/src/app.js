@@ -1,6 +1,7 @@
 import express, { urlencoded } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser"
+base_url=process.env.BASE_URL
 
 
 
